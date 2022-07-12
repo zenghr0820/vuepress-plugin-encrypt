@@ -1,0 +1,35 @@
+{
+  "name": "@zenghr/vuepress-plugin-encrypt",
+  "version": "1.1.0",
+  "description": "VuePress Plugin to Encrypt Part of Markdown",
+  "main": "index.js",
+  "bin": {
+    "encrypt": "cli.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "",
+    "directory": ""
+  },
+  "keywords": [
+    "encrypt",
+    "vue",
+    "vuepress"
+  ],
+  "author": "Zenghr",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "aes-js": "^3.1.2",
+    "chalk": "^3.0.0",
+    "commander": "^4.1.1",
+    "js-yaml": "^3.13.1",
+    "md5": "^2.2.1"
+  }
+}
