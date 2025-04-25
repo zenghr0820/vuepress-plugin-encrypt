@@ -1,35 +1,81 @@
 {
-  "name": "@zenghr/vuepress-plugin-encrypt",
-  "version": "1.1.0",
-  "description": "VuePress Plugin to Encrypt Part of Markdown",
-  "main": "index.js",
-  "bin": {
-    "encrypt": "cli.js"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
+  "name": "vuepress-plugin-encrypt",
+  "version": "2.0.0",
+  "description": "A VuePress plugin for encrypting content",
+  "type": "module",
+  "main": "lib/node/index.js",
+  "types": "lib/node/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zenghr0820/vuepress-plugin-encrypt.git",
-    "directory": ""
+    "url": "https://github.com/zenghr0820/vuepress-plugin-encrypt.git"
   },
-  "keywords": [
-    "encrypt",
-    "vue",
-    "vuepress"
-  ],
-  "author": "Zenghr",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/zenghr0820/vuepress-plugin-encrypt/issues"
   },
   "homepage": "https://github.com/zenghr0820/vuepress-plugin-encrypt#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "vuepress-plugin-strict-encrypt": "./lib/bin/cli.js"
+  },
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "build": "rimraf lib && tsc -p tsconfig.json && pnpm run copy:styles",
+    "copy:styles": "copyfiles -u 1 \"src/client/styles/**/*.{css,scss}\" lib",
+    "clean": "rimraf lib",
+    "lint": "eslint --ext .js,.ts,.vue .",
+    "prepublishOnly": "npm run clean && npm run build",
+    "prepare": "npm run build",
+    "release": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
+  },
+  "files": [
+    "lib"
+  ],
+  "exports": {
+    ".": "./lib/node/index.js",
+    "./client": "./lib/client/index.js",
+    "./styles/*": "./lib/client/styles/*",
+    "./package.json": "./package.json"
+  },
+  "keywords": [
+    "vuepress",
+    "plugin",
+    "encrypt",
+    "password",
+    "security",
+    "protection"
+  ],
+  "author": "Zenghr",
+  "license": "MIT",
   "dependencies": {
-    "aes-js": "^3.1.2",
-    "chalk": "^3.0.0",
-    "commander": "^4.1.1",
-    "js-yaml": "^3.13.1",
-    "md5": "^2.2.1"
+    "@vuepress/client": "2.0.0-rc.21",
+    "@vuepress/core": "2.0.0-rc.21",
+    "@vuepress/utils": "2.0.0-rc.21",
+    "@vueuse/core": "^10.11.1",
+    "commander": "^11.1.0",
+    "crypto-js": "^4.2.0",
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0",
+    "markdown-it": "^13.0.2",
+    "toml": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/js-yaml": "^4.0.9",
+    "@types/markdown-it": "^13.0.9",
+    "@types/node": "^20.17.30",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^5.0.10",
+    "sass": "^1.87.0",
+    "typescript": "^5.8.3"
+  },
+
+  "engines": {
+    "node": ">=16.0.0"
   }
+
 }

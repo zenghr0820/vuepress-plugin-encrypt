@@ -8,3 +8,7 @@ node_modules
 # idea
 .idea
 /yarn.lock
+pnpm-lock.yaml
+
+# lib
+lib
