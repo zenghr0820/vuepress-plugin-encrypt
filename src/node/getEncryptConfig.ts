@@ -2,12 +2,12 @@ import CryptoES from 'crypto-es';
 import {EncryptOptions, EncryptConfig, PasswordOptions, PasswordConfig} from "../shared";
 
 const hashPasswords = (passwords: unknown, key: string): string[] | null => {
-  if (typeof passwords === "string") return [CryptoES.MD5(passwords as string).toString()];
+  if (typeof passwords === "string") return [CryptoES.SHA256(passwords as string).toString()];
 
   if (Array.isArray(passwords))
     return passwords
       .map((password) => {
-        if (typeof password === "string") return CryptoES.MD5(password as string).toString();
+        if (typeof password === "string") return CryptoES.SHA256(password as string).toString();
         console.log(`${key} config is invalid. `);
         return null;
       })

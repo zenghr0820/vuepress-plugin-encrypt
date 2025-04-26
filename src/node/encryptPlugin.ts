@@ -1,6 +1,5 @@
 import { Plugin } from "@vuepress/core";
 import { getDirname, path } from "@vuepress/utils";
-// @ts-ignore
 import markdownContainer from 'markdown-it-container';
 import { type EncryptOptions } from "../shared/encrypt.js";
 import { encryptContent, encryptFrontmatter, decryptContent, decryptFrontmatter } from "../client/utils/encrypt.js";
