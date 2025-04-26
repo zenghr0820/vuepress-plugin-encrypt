@@ -1,61 +1,57 @@
 import type { SlotsType, VNode, PropType } from "vue";
-import { defineComponent, h, onMounted, ref, watch, computed } from 'vue';
-import { usePathEncrypt } from '../composables/usePathEncrypt';
+import { defineComponent, h, onMounted, ref, Teleport, computed } from 'vue';
+import { usePathEncrypt, useEncryptConfig } from '../composables';
 import PasswordModal from './PasswordModal';
 
 export default defineComponent({
-  name: "ZhrLocalEncrypt",
+  name: "Encrypt",
+
+  props: {
+    keyName: String,
+    owners: String,
+    encrypted: Boolean
+  },
 
   slots: Object as SlotsType<{
     default: () => VNode[] | VNode | null;
   }>,
 
   setup(_props, { slots }) {
-    console.log("[ZhrLocalEncrypt] setup函数开始执行");
+    console.log(_props)
     const isMounted = ref(false);
-    
-    try {
-      console.log("[ZhrLocalEncrypt] 尝试使用usePathEncrypt");
-      const { status, validate } = usePathEncrypt();
-      
-      onMounted(() => {
-        console.log("[ZhrLocalEncrypt] 组件已挂载");
-        isMounted.value = true;
-      });
+    const { status, validate } = usePathEncrypt();
 
-      return (): VNode[] | VNode | null => {
-        console.log("[ZhrLocalEncrypt] render函数执行, isMounted=", isMounted.value);
-        
-        if (!isMounted.value) {
-          console.log("[ZhrLocalEncrypt] 组件尚未挂载，返回null");
-          return null;
-        }
-        
-        const { isEncrypted, isLocked, hint } = status.value;
-        console.log("[ZhrLocalEncrypt] 状态检查: ", { isEncrypted, isLocked });
+    // 获取插件配置
+    const encryptData = useEncryptConfig();
 
-        return isEncrypted
+    const contentContainer = ref(null);
+
+    onMounted(() => {
+      isMounted.value = true;
+      // 动态探测内容容器
+      contentContainer.value = document.querySelector(
+        // 优先使用配置的选择器，默认探测常见选择器
+        encryptData?.contentContainer ||
+        "#main-content, main, .content, [vp-content]"
+      );
+    });
+
+    return (): VNode[] | VNode | null => {
+      const { isEncrypted, isLocked, hint } = status.value;
+
+      return isEncrypted
+        ? isMounted.value
           ? isLocked
             ? h(PasswordModal, {
-                showTitle: true,
-                full: true,
-                hint,
-                onVerify: validate,
-              })
-            : slots.default?.()
-          : slots.default?.();
-      };
-    } catch (error) {
-      console.error("[ZhrLocalEncrypt] 初始化错误:", error);
-      
-      // 出错后返回一个简单的渲染函数，避免整个组件崩溃
-      return () => h('div', { class: 'encrypt-error' }, [
-        h('p', '加密组件初始化失败，请检查控制台错误信息')
-      ]);
-    }
+              showTitle: false,
+              full: true,
+              hint,
+              onVerify: validate,
+            })
+            : slots.default()
+          : null
+        : slots.default();
+    };
   },
 
-  extendsPage(page) {
-    console.log("extendsPage函数执行, page=", page);
-  }
 });

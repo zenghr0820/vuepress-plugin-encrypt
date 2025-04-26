@@ -1,12 +1,10 @@
 import type { VNode } from "vue";
-import { computed, defineComponent, h, nextTick, ref } from "vue";
-import { usePageFrontmatter } from "@vuepress/client";
-
-import { encryptLocaleInfo } from "../../node/locales";
+import { defineComponent, h, nextTick, ref } from "vue";
+import {usePageFrontmatter, usePageLang} from "@vuepress/client";
 
 import { LockIcon } from "./icons";
 
-import "../styles/password-modal.scss";
+import {useThemeLocaleData} from "../../client/composables";
 
 export default defineComponent({
   name: "ZhrPasswordModal",
@@ -35,17 +33,17 @@ export default defineComponent({
   emits: ["verify"],
 
   setup(props, { emit }) {
-    // const frontmatter = usePageFrontmatter();
-    const frontmatter = "";
+    const frontmatter = usePageFrontmatter();
     const password = ref("");
     const hasTried = ref(false);
     const remember = ref(false);
 
-    const locale = encryptLocaleInfo;
+    // 获取主题语言
+    const lang = usePageLang();
+    console.log("[usePathEncrypt] 语言:", lang);
+    const locale = useThemeLocaleData(lang.value);
 
     let hintHandler: number | null = null;
-
-    console.log("PasswordModal 组件挂载")
 
     const verify = (): void => {
       // Clear previous handler

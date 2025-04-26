@@ -1,22 +1,22 @@
 import type { EncryptLocaleData } from '../shared/encrypt'
 
 // 定义本地化信息类型
-export type DefaultLocaleInfo = Record<string, any>;
+export type DefaultLocaleInfo = Record<string, EncryptLocaleData>;
 
-export const encryptLocaleInfo: Record<string, EncryptLocaleData> = {
-  '/en/': {
+export const EncryptLocaleInfo: Record<string, EncryptLocaleData> = {
+  'en': {
     iconLabel: 'Encrypt',
     placeholder: 'Enter password',
     remember: 'Remember password',
     errorHint: 'Please enter the correct password!'
   },
-  '/zh/': {
+  'zh-CN': {
     iconLabel: '加密',
     placeholder: '请输入密码',
     remember: '记住密码',
     errorHint: '请输入正确的密码！'
   },
-  '/zh-tw/': {
+  'zh-tw': {
     iconLabel: '加密',
     placeholder: '請輸入密碼',
     remember: '記住密碼',

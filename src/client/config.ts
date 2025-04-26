@@ -1,43 +1,42 @@
-import { defineClientConfig } from "@vuepress/client";
+import {defineClientConfig} from "@vuepress/client";
+import { onMounted } from 'vue';
 import LocalEncrypt from "./components/LocalEncrypt";
-import GlobalEncrypt from "./components/GlobalEncrypt";
-import ContentEncrypt from "./components/ContentEncrypt";
-import EncryptLayout from "./layouts/EncryptLayout";
-import ThemeEncryptLayout from "./layouts/ThemeEncryptLayout";
-import { setupGlobalEncrypt } from "./composables/useGlobalEncrypt";
+import {getDirname, path} from "@vuepress/utils";
+// import fs from "fs";
+import {setupGlobalEncrypt} from "./composables/useGlobalEncrypt";
 
 // 导入样式
 import './styles/index.scss';
 
+
+// const __dirname = getDirname(import.meta.url);
+//
+// // 版本信息
+// const packageJson = JSON.parse(
+//   fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8')
+// )
+
+
 declare const __VUEPRESS_ENCRYPT_CONFIG__: Record<string, any>;
 
 export default defineClientConfig({
-  enhance({ app }) {
+  enhance({app}) {
     // 注册组件
-    // app.component("ZhrLocalEncrypt", LocalEncrypt);
-    // app.component("ZhrContentEncrypt", ContentEncrypt);
-    
-    // // 注册布局组件
-    // app.component("EncryptLayout", EncryptLayout);
-    // app.component("ThemeEncryptLayout", ThemeEncryptLayout);
+    app.component("ZhrLocalEncrypt", LocalEncrypt);
   },
-
   setup() {
-    console.log("加密组件加载....");
+    onMounted(() => {
+      // console.log(
+      //   `%c Vuepress 加密插件 v${packageJson.version}✨ \n`,
+      //   `background: #eb507e; padding:5px; font-size:12px; color: #f9f4dc;`,
+      //   `color: #51c4d3; font-size:12px;`
+      // );
+    });
     // 设置全局加密
     if (__VUEPRESS_ENCRYPT_CONFIG__.global) {
       setupGlobalEncrypt();
     }
   },
 
-  layouts: {
-    // 注册自定义布局
-    EncryptLayout,
-    ThemeEncryptLayout
-  },
-
-  rootComponents: [
-    // 添加全局密码组件，使其在每个页面自动运行
-    // GlobalEncrypt
-  ],
-}); 
+  rootComponents: [],
+});

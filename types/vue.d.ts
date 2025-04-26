@@ -5,6 +5,7 @@ declare module 'vue' {
   export const inject: any;
   export const watch: any;
   export const computed: any;
+  export const Teleport: any;
   export const defineComponent: any;
   export const resolveComponent: any;
   export const getCurrentInstance: any;
@@ -37,11 +38,7 @@ declare module '*.vue' {
   export default component;
 }
 
-declare module '@vuepress/helper' {
-  export type DefaultLocaleInfo = any;
-}
-
-declare module '@vueuse/core' {
-  export function useSessionStorage<T>(key: string, defaultValue: T): any;
-  export function useStorage<T>(key: string, defaultValue: T): any;
-}
+// declare module '@vueuse/core' {
+//   export function useSessionStorage<T>(key: string, defaultValue: T): any;
+//   export function useStorage<T>(key: string, defaultValue: T): any;
+// }

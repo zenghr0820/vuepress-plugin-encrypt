@@ -1,23 +1,27 @@
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
+import CryptoES from 'crypto-es';
 import MarkdownIt from 'markdown-it';
 import path from 'path';
 import { parseFrontmatter }  from './parseFrontmatter.js'
+
 import yaml from 'js-yaml';
 
-const md = new MarkdownIt();
+
+const ENCRYPT_CONTAINER_BEGIN_REGEX = /^\s*encrypt\s+(encrypted\s+)?key=(\w+)\s+salt=(\w+(?:,\w+)*)\s*$/
+
 
 export const encryptContent = (content: string, password: string | string[]): string => {
   const key = Array.isArray(password) ? password[0] : password;
-  return CryptoJS.AES.encrypt(content, key).toString();
+  return CryptoES.AES.encrypt(content, key).toString();
 };
 
 export const decryptContent = (encrypted: string, password: string | string[]): string => {
   const key = Array.isArray(password) ? password[0] : password;
   try {
-    const bytes = CryptoJS.AES.decrypt(encrypted, key);
-    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    const bytes = CryptoES.AES.decrypt(encrypted, key);
+    const decrypted = bytes.toString(CryptoES.enc.Utf8);
     if (!decrypted) {
-      throw new Error('解密结果为空');
+      console.warn("没有需要解密的内容")
     }
     return decrypted;
   } catch (e) {
@@ -27,11 +31,11 @@ export const decryptContent = (encrypted: string, password: string | string[]): 
 };
 
 export const encryptFrontmatter = (content: string, password: string | string[], filePath?: string): string => {
+  const markdown = new MarkdownIt();
   // 解析 frontmatter
   const { data, content: markdownContent } = parseFrontmatter(content);
-  
   // 渲染 markdown 内容
-  const html = md.render(markdownContent, {
+  const html = markdown.render(markdownContent, {
     frontmatter: data,
     relativePath: filePath ? path.relative(process.cwd(), filePath).replace(/\\/g, '/') : undefined
   });
@@ -54,22 +58,20 @@ export const encryptFrontmatter = (content: string, password: string | string[],
 export const decryptFrontmatter = (content: string, password: string | string[]): string => {
   // 解析 frontmatter
   const { data, content: restContent } = parseFrontmatter(content);
-  
-  // 提取加密内容 - 使用更简单的方法
-  const lines = restContent.split('\n');
-  const encryptedContent = lines
-    .filter(line => !line.startsWith(':::'))
-    .join('\n')
-    .trim();
-    
-  if (!encryptedContent) {
-    throw new Error('未找到加密内容');
+
+  const regex = /::: encrypt encrypted\s+([\s\S]+?)\s*:::/;
+  const restMatch = restContent.match(regex);
+  if (!restMatch || restMatch.length <= 0) {
+    console.warn("没有找到需要解密的内容")
+    return
   }
-  
+  // 提取加密内容 - 使用更简单的方法
+  const encryptedContent = restMatch[1];
+
   try {
     // 解密内容
     const decrypted = decryptContent(encryptedContent, password);
-    
+
     try {
       // 尝试解析为 JSON
       const parsed = JSON.parse(decrypted);

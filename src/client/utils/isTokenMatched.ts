@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
 
 export const isTokenMatched = (token = "", storedHash: string): boolean => {
   if (!token || !storedHash) return false;

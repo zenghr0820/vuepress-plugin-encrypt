@@ -1,6 +1,6 @@
 {
   "name": "vuepress-plugin-encrypt",
-  "version": "2.0.1",
+  "version": "2.0.12",
   "description": "A VuePress plugin for encrypting content",
   "type": "module",
   "main": "lib/node/index.js",
@@ -52,30 +52,28 @@
   "author": "Zenghr",
   "license": "MIT",
   "dependencies": {
-    "@vuepress/client": "2.0.0-rc.21",
-    "@vuepress/core": "2.0.0-rc.21",
-    "@vuepress/utils": "2.0.0-rc.21",
-    "@vueuse/core": "^10.11.1",
-    "commander": "^11.1.0",
+    "crypto-es": "^2.1.0",
     "crypto-js": "^4.2.0",
-    "gray-matter": "^4.0.3",
-    "js-yaml": "^4.1.0",
-    "markdown-it": "^13.0.2",
-    "toml": "^3.0.0"
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
     "@types/js-yaml": "^4.0.9",
     "@types/markdown-it": "^13.0.9",
     "@types/node": "^20.17.30",
+    "@vuepress/client": "2.0.0-rc.21",
+    "@vuepress/core": "2.0.0-rc.21",
+    "@vuepress/utils": "2.0.0-rc.21",
+    "@vueuse/core": "^10.11.1",
+    "commander": "^11.1.0",
     "copyfiles": "^2.4.1",
-    "rimraf": "^5.0.10",
+    "markdown-it": "^13.0.2",
+    "markdown-it-container": "^4.0.0",
+    "rimraf": "^6.0.1",
     "sass": "^1.87.0",
     "typescript": "^5.8.3"
   },
-
   "engines": {
     "node": ">=16.0.0"
   }
-
 }
