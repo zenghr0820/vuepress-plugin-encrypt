@@ -1,26 +1,13 @@
 import { computed } from 'vue';
-import type { ComputedRef } from "vue";
 import { useSessionStorage, useStorage } from "@vueuse/core";
 import { useEncryptConfig } from "./useEncryptConfig";
-import { useRouter, usePageData, usePageLang } from "@vuepress/client";
-import { isTokenMatched } from "../utils";
+import { usePageData } from "@vuepress/client";
+import { isTokenMatched } from "@encrypt-plugin/client/utils";
+import {EncryptContainer, UseEncryptStatus} from "@encrypt-plugin/shared";
 
 const STORAGE_KEY = "__VUEPRESS_ENCRYPT_STRICT_PATH_TOKEN__";
 
-export interface PathEncrypt {
-  status: ComputedRef<PathEncryptStatus>;
-  getStatus: (path: string) => PathEncryptStatus;
-  validate: (token: string, keep?: boolean) => void;
-  validatePath: (path: string, token: string, keep?: boolean) => void;
-}
-
-export interface PathEncryptStatus {
-  isEncrypted: boolean;
-  isLocked: boolean;
-  hint?: string;
-}
-
-export const usePathEncrypt = (): PathEncrypt => {
+export const usePathEncrypt = (): EncryptContainer => {
   const page = usePageData();
   const encryptData = useEncryptConfig();
 
@@ -39,7 +26,7 @@ export const usePathEncrypt = (): PathEncrypt => {
       : [];
   }
 
-  const getStatus = (path: string): PathEncryptStatus => {
+  const getStatus = (path: string): UseEncryptStatus => {
     console.log("[usePathEncrypt] 获取状态:", path);
     const { config = {} } = encryptData;
 
@@ -67,12 +54,16 @@ export const usePathEncrypt = (): PathEncrypt => {
               : true),
         ),
         hint: firstKeyWithHint ? config[firstKeyWithHint].hint! : "",
+        isStrictMode: false,
+        isDecrypt: false,
       };
     }
 
     return {
       isEncrypted: false,
       isLocked: false,
+      isStrictMode: false,
+      isDecrypt: false,
       hint: "",
     };
   };
@@ -85,6 +76,11 @@ export const usePathEncrypt = (): PathEncrypt => {
     console.log("[usePathEncrypt] 验证密码...");
     validatePath(currentPath, inputToken, keep);
   };
+
+  // 空实现
+  const useDecrypt = (content: string, token: string): string => {
+    return ""
+  }
 
   const validatePath = (path: string, inputToken: string, keep = false): void => {
     console.log("[usePathEncrypt] 验证路径密码:", path);
@@ -107,6 +103,7 @@ export const usePathEncrypt = (): PathEncrypt => {
     status,
     getStatus,
     validate,
+    useDecrypt,
     validatePath
   };
 

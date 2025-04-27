@@ -1,14 +1,14 @@
 import { Plugin } from "@vuepress/core";
 import { getDirname, path } from "@vuepress/utils";
 import markdownContainer from 'markdown-it-container';
-import { type EncryptOptions } from "../shared/encrypt.js";
-import { encryptContent, encryptFrontmatter, decryptContent, decryptFrontmatter } from "../client/utils/encrypt.js";
+import { type EncryptOptions } from "@encrypt-plugin/shared";
+import { encryptContent, encryptFrontmatter, decryptContent, decryptFrontmatter } from "@encrypt-plugin/client";
 import {convertEncryptOptions} from "./getEncryptConfig.js";
 
 const __dirname = getDirname(import.meta.url);
 
 export const PLUGIN_NAME = "vuepress-plugin-encrypt";
-export const ENCRYPT_CONTAINER_BEGIN_REGEX = /^\s*encrypt\s+(encrypted\s+)?key=(\w+)\s+salt=(\w+(?:,\w+)*)\s*$/
+export const ENCRYPT_CONTAINER_BEGIN_REGEX = /encrypt encrypted token=([^\s:]+)/
 
 export const encryptPlugin = (options: EncryptOptions): Plugin => (app) => {
   // 配置
@@ -23,6 +23,12 @@ export const encryptPlugin = (options: EncryptOptions): Plugin => (app) => {
       __VUEPRESS_ENCRYPT_CONFIG__: config,
     },
 
+    alias: {
+      "@encrypt-plugin/node": path.resolve(__dirname, "../node"),
+      "@encrypt-plugin/client": path.resolve(__dirname, "../client"),
+      "@encrypt-plugin/shared": path.resolve(__dirname, "../shared"),
+    },
+
     extendsMarkdown: (md, app ) => {
       md.use(markdownContainer, 'encrypt', {
         validate (params) {
@@ -32,7 +38,7 @@ export const encryptPlugin = (options: EncryptOptions): Plugin => (app) => {
           const m = tokens[idx].info.match(ENCRYPT_CONTAINER_BEGIN_REGEX)
           if (tokens[idx].nesting === 1) {
             // opening tag
-            return `<ZhrLocalEncrypt key-name="${m[2]}" owners="${m[3]}" :encrypted="${!!m[1]}">`
+            return `<ZhrLocalEncrypt token="${m[1]}" mode="strict">`
           } else {
             // closing tag
             return '</ZhrLocalEncrypt>\n'

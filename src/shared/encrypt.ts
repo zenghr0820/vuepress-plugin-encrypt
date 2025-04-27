@@ -1,3 +1,5 @@
+import {ComputedRef} from "vue";
+
 export type PasswordOptions =
   | string
   | string[]
@@ -230,3 +232,21 @@ export enum EncryptPluginType {
    */
   Strict = "strict",
 }
+
+export interface EncryptContainer {
+  status: ComputedRef<UseEncryptStatus>;
+  getStatus: (path: string) => UseEncryptStatus;
+  validate: (token: string, keep?: boolean) => void;
+  validatePath: (path: string, token: string, keep?: boolean) => void;
+  useDecrypt: (content: string, token: string) => string;
+}
+
+export interface UseEncryptStatus {
+  isEncrypted: boolean;
+  isLocked: boolean;
+  isStrictMode: boolean;
+  isDecrypt: boolean;
+  hint?: string;
+}
+
+

@@ -15,7 +15,7 @@
     "outDir": "lib",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@encrypt-plugin/*": ["src/*"]
     },
     "noImplicitAny": false,
     "isolatedModules": true

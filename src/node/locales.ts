@@ -1,4 +1,4 @@
-import type { EncryptLocaleData } from '../shared/encrypt'
+import type { EncryptLocaleData } from '@encrypt-plugin/shared'
 
 // 定义本地化信息类型
 export type DefaultLocaleInfo = Record<string, EncryptLocaleData>;

@@ -1,7 +1,7 @@
 {
   "name": "vuepress-plugin-encrypt",
   "version": "2.0.13",
-  "description": "A VuePress plugin for encrypting content",
+  "description": "一个用于 VuePress 2.x 的内容加密插件，支持页面加密和内容加密，提供多种集成方式",
   "type": "module",
   "main": "lib/node/index.js",
   "types": "lib/node/index.d.ts",
