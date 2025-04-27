@@ -9,6 +9,7 @@
 - 🔑 **全局密码** - 设置管理员密码，可以解锁所有加密内容
 - 🌐 **多语言支持** - 支持多语言配置
 - 🎨 **主题集成** - 与 VuePress 主题完美集成
+- 🚀 **Vite 构建** - 使用 Vite 进行快速构建
 
 ## 安装
 
@@ -78,6 +79,86 @@ export default defineUserConfig({
 })
 ```
 
+## 开发
+
+### 构建
+
+项目使用 Vite 进行构建，这提供了更快的构建速度和更好的开发体验：
+
+```bash
+# 安装依赖
+pnpm install
+
+# 构建项目
+pnpm run build
+```
+
+构建后的文件会输出到 `lib` 目录。
+
+## CLI 命令行工具
+
+插件提供了命令行工具，可以用于批量加密/解密 Markdown 文件：
+
+### 安装
+
+全局安装以使用命令行工具：
+
+```bash
+npm install -g vuepress-plugin-encrypt
+```
+
+### 命令
+
+#### 加密文件
+
+```bash
+vuepress-plugin-encrypt encrypt <paths...> -p <password>
+```
+
+参数说明：
+- `<paths...>`: 要加密的文件或目录路径，支持多个路径
+- `-p, --password <password>`: 加密密码
+
+示例：
+```bash
+# 加密单个文件
+vuepress-plugin-encrypt encrypt ./docs/secret.md -p mypassword
+
+# 加密整个目录
+vuepress-plugin-encrypt encrypt ./docs/secret -p mypassword
+
+# 加密多个文件或目录
+vuepress-plugin-encrypt encrypt ./docs/secret.md ./docs/private -p mypassword
+```
+
+#### 解密文件
+
+```bash
+vuepress-plugin-encrypt decrypt <paths...> -p <password>
+```
+
+参数说明：
+- `<paths...>`: 要解密的文件或目录路径，支持多个路径
+- `-p, --password <password>`: 解密密码
+
+示例：
+```bash
+# 解密单个文件
+vuepress-plugin-encrypt decrypt ./docs/secret.md -p mypassword
+
+# 解密整个目录
+vuepress-plugin-encrypt decrypt ./docs/secret -p mypassword
+
+# 解密多个文件或目录
+vuepress-plugin-encrypt decrypt ./docs/secret.md ./docs/private -p mypassword
+```
+
+### 注意事项
+
+- 加密/解密操作会直接修改原文件，建议在操作前备份重要文件
+- 目录加密会递归处理所有 .md 文件
+- 确保提供正确的密码，错误的密码可能导致文件无法正确解密
+
 ## 许可证
 
-MIT 
+MIT

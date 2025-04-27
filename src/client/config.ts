@@ -3,14 +3,6 @@ import { onMounted } from 'vue';
 import LocalEncrypt from "./components/LocalEncrypt";
 import {setupGlobalEncrypt} from "./composables/useGlobalEncrypt";
 
-// 导入样式
-import './styles/index.scss';
-
-
-// 版本信息
-const version = '2.0.13'; // 当前版本，也可以通过import.meta.env变量注入
-
-
 declare const __VUEPRESS_ENCRYPT_CONFIG__: Record<string, any>;
 
 export default defineClientConfig({
@@ -20,10 +12,14 @@ export default defineClientConfig({
   },
   setup() {
     onMounted(() => {
+      console.log(__APP_VERSION__)
       console.log(
-        `%c Vuepress 加密插件 v${version}✨ \n`,
-        `background: #eb507e; padding:5px; font-size:12px; color: #f9f4dc;`,
-        `color: #51c4d3; font-size:12px;`
+        `\n %c 🎉🎉🎉 %c %c ✨ vuepress-plugin-encrypt v${__APP_VERSION__}  Happy !! ✨ %c %c 🎉🎉🎉 \n`,
+        'background: #add7fb; padding:5px 0;',
+        'background: #58b0fc; padding:5px 0;',
+        'color: #fff; background: #030307; padding:5px 0;',
+        'background: #58b0fc; padding:5px 0;',
+        'background: #add7fb; padding:5px 0;'
       );
     });
     // 设置全局加密

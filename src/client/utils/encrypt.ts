@@ -1,6 +1,5 @@
 import CryptoES from 'crypto-es';
 import MarkdownIt from 'markdown-it';
-import path from 'path';
 import {parseFrontmatter} from './parseFrontmatter.js'
 import yaml from 'js-yaml';
 
@@ -56,7 +55,7 @@ export const encryptFrontmatter = (content: string, password: string | string[],
   // 渲染 markdown 内容
   const html = markdown.render(markdownContent, {
     frontmatter: data,
-    relativePath: filePath ? path.relative(process.cwd(), filePath).replace(/\\/g, '/') : undefined
+    relativePath: filePath ? resolveRelative(filePath) : undefined
   });
 
   // 构建加密数据
@@ -107,3 +106,9 @@ export const decryptFrontmatter = (content: string, password: string | string[])
     throw new Error('解密失败，请检查密码是否正确');
   }
 };
+
+
+// 解析相对路径
+function resolveRelative(relativePath) {
+  return new URL(relativePath, import.meta.url).pathname;
+}

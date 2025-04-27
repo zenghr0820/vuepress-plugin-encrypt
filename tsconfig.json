@@ -5,7 +5,7 @@
     "moduleResolution": "Node",
     "strict": false,
     "jsx": "preserve",
-    "sourceMap": false,
+    "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],

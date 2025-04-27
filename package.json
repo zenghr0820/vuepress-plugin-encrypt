@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "build": "rimraf lib && tsc && tsc-alias && pnpm run copy:styles",
+    "build": "rimraf lib && tsc && vite build && npm run copy:styles",
     "copy:styles": "copyfiles -u 1 \"src/client/styles/**/*.{css,scss}\" lib",
     "clean": "rimraf lib",
     "release": "npm version patch && npm publish"
@@ -34,6 +34,7 @@
     ".": "./lib/node/index.js",
     "./client": "./lib/client/index.js",
     "./styles/*": "./lib/client/styles/*",
+    "./styles": "./lib/client/styles/index.css",
     "./package.json": "./package.json"
   },
   "keywords": [
@@ -67,7 +68,9 @@
     "rimraf": "^6.0.1",
     "sass": "^1.87.0",
     "tsc-alias": "^1.8.15",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vite": "^6.3.3",
+    "vite-plugin-dts": "^4.5.3"
   },
   "engines": {
     "node": ">=16.0.0"
