@@ -1,4 +1,4 @@
-import { type EncryptConfig } from "@encrypt-plugin/shared";
+import { type EncryptConfig } from "../../shared/encrypt";
 
 // 定义全局变量，这会被插件注入
 declare const __VUEPRESS_ENCRYPT_CONFIG__: EncryptConfig;

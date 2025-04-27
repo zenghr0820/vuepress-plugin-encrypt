@@ -1,6 +1,6 @@
 import { program } from 'commander';
 import { getDirname, path } from "@vuepress/utils";
-import { encryptFrontmatter, decryptFrontmatter } from '@encrypt-plugin/client';
+import { encryptFrontmatter, decryptFrontmatter } from '../client/utils/encrypt.js';
 import fs from 'fs'
 import { resolve, relative, dirname } from 'path';
 

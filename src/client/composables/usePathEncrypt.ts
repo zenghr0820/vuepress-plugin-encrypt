@@ -2,8 +2,8 @@ import { computed } from 'vue';
 import { useSessionStorage, useStorage } from "@vueuse/core";
 import { useEncryptConfig } from "./useEncryptConfig";
 import { usePageData } from "@vuepress/client";
-import { isTokenMatched } from "@encrypt-plugin/client/utils";
-import {EncryptContainer, UseEncryptStatus} from "@encrypt-plugin/shared";
+import { isTokenMatched } from "../utils";
+import {EncryptContainer, UseEncryptStatus} from "../../shared";
 
 const STORAGE_KEY = "__VUEPRESS_ENCRYPT_STRICT_PATH_TOKEN__";
 

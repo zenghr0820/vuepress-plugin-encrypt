@@ -1,6 +1,6 @@
 import type { SlotsType, VNode } from "vue";
 import { defineComponent, h, onMounted, ref, computed, nextTick } from 'vue';
-import { useAutoSelectEncrypt, useEncryptConfig } from '@encrypt-plugin/client/composables';
+import { useAutoSelectEncrypt, useEncryptConfig } from '../composables';
 import PasswordModal from './PasswordModal';
 
 /**
@@ -80,16 +80,15 @@ export default defineComponent({
           if (encryptedContentRef.value) {
             originalEncryptedContent.value = encryptedContentRef.value.textContent || "";
           }
+          if (encryptedContentRef.value && !isDecrypted.value) {
+            // 尝试解密
+            console.log("try decrypt...");
+            decryptedContent.value = encryptHandle.useDecrypt(originalEncryptedContent.value, props.token);
+            isDecrypted.value = true;
+          }
         });
       }
     });
-
-    if (encryptedContentRef.value && !isDecrypted.value) {
-      // 尝试解密
-      console.log("---------尝试解密---------")
-      decryptedContent.value = encryptHandle.useDecrypt(originalEncryptedContent.value, props.token);
-      isDecrypted.value = true
-    }
 
     /**
      * 渲染函数

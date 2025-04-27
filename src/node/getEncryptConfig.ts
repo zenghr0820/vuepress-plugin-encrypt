@@ -1,5 +1,5 @@
 import CryptoES from 'crypto-es';
-import {EncryptOptions, EncryptConfig, PasswordOptions, PasswordConfig} from "@encrypt-plugin/shared";
+import {EncryptOptions, EncryptConfig, PasswordOptions, PasswordConfig} from "../shared";
 
 const hashPasswords = (passwords: unknown, key: string): string[] | null => {
   if (typeof passwords === "string") return [CryptoES.SHA256(passwords as string).toString()];

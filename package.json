@@ -1,7 +1,7 @@
 {
   "name": "vuepress-plugin-encrypt",
-  "version": "2.0.13",
-  "description": "一个用于 VuePress 2.x 的内容加密插件，支持页面加密和内容加密，提供多种集成方式",
+  "version": "2.0.14",
+  "description": "一个用于 VuePress 2.x 的内容加密插件",
   "type": "module",
   "main": "lib/node/index.js",
   "types": "lib/node/index.d.ts",
@@ -22,15 +22,10 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "build": "rimraf lib && tsc -p tsconfig.json && pnpm run copy:styles",
+    "build": "rimraf lib && tsc && tsc-alias && pnpm run copy:styles",
     "copy:styles": "copyfiles -u 1 \"src/client/styles/**/*.{css,scss}\" lib",
     "clean": "rimraf lib",
-    "lint": "eslint --ext .js,.ts,.vue .",
-    "prepublishOnly": "npm run clean && npm run build",
-    "prepare": "npm run build",
-    "release": "npm version patch && npm publish",
-    "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish"
+    "release": "npm version patch && npm publish"
   },
   "files": [
     "lib"
@@ -54,8 +49,8 @@
   "dependencies": {
     "crypto-es": "^2.1.0",
     "crypto-js": "^4.2.0",
-    "markdown-it-container": "^4.0.0",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "markdown-it-container": "^4.0.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
@@ -71,6 +66,7 @@
     "markdown-it": "^13.0.2",
     "rimraf": "^6.0.1",
     "sass": "^1.87.0",
+    "tsc-alias": "^1.8.15",
     "typescript": "^5.8.3"
   },
   "engines": {

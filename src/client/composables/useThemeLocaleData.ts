@@ -1,5 +1,5 @@
-import {EncryptLocaleInfo} from "@encrypt-plugin/node/locales";
-import {EncryptLocaleData} from "@encrypt-plugin/shared";
+import {EncryptLocaleInfo} from "../../node/locales";
+import {EncryptLocaleData} from "../../shared";
 import {useEncryptConfig} from "./useEncryptConfig";
 
 const DefaultLang = "zh-CN";

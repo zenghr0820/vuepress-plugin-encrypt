@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import frontmatter from '@encrypt-plugin/client/plugins/markdown-it-frontmatter.js'
+import frontmatter from '../plugins/markdown-it-frontmatter.js'
 // 使用 require 导入没有类型声明的模块
 import yaml from 'js-yaml'
 
