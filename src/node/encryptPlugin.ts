@@ -15,6 +15,26 @@ export const encryptPlugin = (options: EncryptOptions): Plugin => (app) => {
   const config = convertEncryptOptions(options);
   if (app.env.isDebug) console.log(`${PLUGIN_NAME} : \n`, config)
 
+  // 替换组件
+  let alias = {
+    "@theme-hope/modules/encrypt/components/GlobalEncrypt": path.resolve(
+      __dirname,
+      "../client/components/GlobalEncrypt",
+    ),
+    "@theme-hope/modules/encrypt/components/LocalEncrypt": path.resolve(
+      __dirname,
+      "../client/components/LocalEncrypt",
+    ),
+  }
+
+  if (config.replaceComponent) {
+    const encrypt = config.replaceComponent.encrypt || "@theme-hope/modules/encrypt/components/GlobalEncrypt";
+    const globalEncrypt = config.replaceComponent.globalEncrypt || "@theme-hope/modules/encrypt/components/GlobalEncrypt";
+    Object.assign(alias, {})
+    alias[encrypt] = path.resolve(__dirname, "../client/components/LocalEncrypt")
+    alias[globalEncrypt] = path.resolve(__dirname, "../client/components/GlobalEncrypt")
+  }
+
 
   return {
     name: PLUGIN_NAME,
@@ -40,6 +60,8 @@ export const encryptPlugin = (options: EncryptOptions): Plugin => (app) => {
         }
       });
     },
+
+    alias,
 
     clientConfigFile: path.resolve(__dirname, "../client/config.js"),
 

@@ -17,15 +17,14 @@
     "access": "public"
   },
   "bin": {
-    "vuepress-plugin-strict-encrypt": "./lib/bin/cli.js"
+    "vuepress-plugin-encrypt": "./lib/bin/cli.js"
   },
   "scripts": {
     "dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "build": "rimraf lib && tsc && vite build && npm run copy:styles",
-    "copy:styles": "copyfiles -u 1 \"src/client/styles/**/*.{css,scss}\" lib",
+    "build": "vite build",
     "clean": "rimraf lib",
-    "release": "npm version patch && npm publish"
+    "release": "npm run build && npm version patch && npm publish"
   },
   "files": [
     "lib"
@@ -34,7 +33,6 @@
     ".": "./lib/node/index.js",
     "./client": "./lib/client/index.js",
     "./styles/*": "./lib/client/styles/*",
-    "./styles": "./lib/client/styles/index.css",
     "./package.json": "./package.json"
   },
   "keywords": [
@@ -49,7 +47,6 @@
   "license": "MIT",
   "dependencies": {
     "crypto-es": "^2.1.0",
-    "crypto-js": "^4.2.0",
     "js-yaml": "^4.1.0",
     "markdown-it-container": "^4.0.0"
   },
@@ -63,11 +60,9 @@
     "@vuepress/utils": "2.0.0-rc.21",
     "@vueuse/core": "^10.11.1",
     "commander": "^11.1.0",
-    "copyfiles": "^2.4.1",
     "markdown-it": "^13.0.2",
     "rimraf": "^6.0.1",
     "sass": "^1.87.0",
-    "tsc-alias": "^1.8.15",
     "typescript": "^5.8.3",
     "vite": "^6.3.3",
     "vite-plugin-dts": "^4.5.3"

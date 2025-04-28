@@ -18,7 +18,6 @@ export const usePathEncrypt = (): EncryptContainer => {
   );
 
   const getPathMatchedKeys = (path: string): string[] => {
-    console.log("[usePathEncrypt] 检查路径匹配:", path);
     return typeof encryptData.config === 'object' && encryptData.config !== null
       ? Object.keys(encryptData.config)
         .filter((key) => decodeURI(path).startsWith(key))
@@ -27,11 +26,9 @@ export const usePathEncrypt = (): EncryptContainer => {
   }
 
   const getStatus = (path: string): UseEncryptStatus => {
-    console.log("[usePathEncrypt] 获取状态:", path);
     const { config = {} } = encryptData;
 
     const matchedKeys = getPathMatchedKeys(path);
-    console.log("[matchedKeys] 匹配的键:", matchedKeys);
 
     if (matchedKeys.length > 0) {
       const firstKeyWithHint = matchedKeys.find((key) => config[key].hint);
@@ -73,7 +70,6 @@ export const usePathEncrypt = (): EncryptContainer => {
   const status = computed(() => getStatus(currentPath));
 
   const validate = (inputToken: string, keep = false): void => {
-    console.log("[usePathEncrypt] 验证密码...");
     validatePath(currentPath, inputToken, keep);
   };
 
@@ -83,7 +79,6 @@ export const usePathEncrypt = (): EncryptContainer => {
   }
 
   const validatePath = (path: string, inputToken: string, keep = false): void => {
-    console.log("[usePathEncrypt] 验证路径密码:", path);
     const { config = {} } = encryptData;
     const matchedKeys = getPathMatchedKeys(path);
 
@@ -94,14 +89,12 @@ export const usePathEncrypt = (): EncryptContainer => {
       ) {
         (keep ? localTokenConfig : sessionTokenConfig).value[hitKey] =
           inputToken;
-        console.log("[usePathEncrypt] 密码验证成功");
         break;
       }
   };
 
   return {
     status,
-    getStatus,
     validate,
     useDecrypt,
     validatePath

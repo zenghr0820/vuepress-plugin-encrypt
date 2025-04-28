@@ -9,3 +9,11 @@ export const isTokenMatched = (token = "", storedHash: string): boolean => {
   // 使用恒定时间比较以防止时序攻击
   return tokenHash === storedHash;
 };
+
+export const encryptToken = (token = ""): string => {
+  if (!token) return "";
+
+  // 使用SHA256生成令牌的哈希值
+  return CryptoES.SHA256(token).toString();
+
+};

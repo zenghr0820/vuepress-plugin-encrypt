@@ -4,24 +4,6 @@ import { useAutoSelectEncrypt, useEncryptConfig } from '../composables';
 import PasswordModal from './PasswordModal';
 
 /**
- * 解密状态接口
- */
-interface DecryptState {
-  timestamp: number;
-  keep: boolean;
-}
-
-/**
- * 加密状态接口
- */
-interface EncryptStatus {
-  isEncrypted: boolean;
-  isLocked: boolean;
-  hint?: string;
-  isStrictMode: boolean;
-}
-
-/**
  * 本地加密组件
  * 支持两种模式：
  * 1. 普通模式：只加密渲染后的内容
@@ -117,8 +99,7 @@ export default defineComponent({
       if (isLocked) {
         // 对于严格模式，我们需要先捕获原始内容再显示密码框
         if (isStrictMode && originalEncryptedContent.value === "") {
-          console.log("encryptedContentRef 隐藏")
-          return h('div', { 
+          return h('div', {
             ref: encryptedContentRef,
             style: { display: "none" }  // 隐藏原始内容
           }, slots.default());

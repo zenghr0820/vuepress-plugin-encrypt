@@ -71,7 +71,6 @@ export const useStrictEncrypt = (token: string, mode: string): EncryptContainer 
 
   return {
     status,
-    getStatus,
     validate,
     useDecrypt,
     validatePath,

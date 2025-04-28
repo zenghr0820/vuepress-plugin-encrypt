@@ -1,13 +1,19 @@
 import type { VNode } from "vue";
-import { defineComponent, h, nextTick, ref } from "vue";
+import { defineComponent, h, nextTick, ref, onMounted } from "vue";
 import {usePageFrontmatter, usePageLang} from "@vuepress/client";
 
 import { LockIcon } from "./icons";
 
 import {useThemeLocaleData} from "../../client/composables";
 
+// 导入样式工具和CSS字符串
+import { injectCSS, passwordModalCSS } from '../styles/password-modal';
+
+// 确保CSS已初始化标志，防止重复注入
+let cssInitialized = false;
+
 export default defineComponent({
-  name: "ZhrPasswordModal",
+  name: "PasswordModal",
 
   props: {
     /**
@@ -37,13 +43,35 @@ export default defineComponent({
     const password = ref("");
     const hasTried = ref(false);
     const remember = ref(false);
+    const ready = ref(false);
 
     // 获取主题语言
     const lang = usePageLang();
-    console.log("[usePathEncrypt] 语言:", lang);
     const locale = useThemeLocaleData(lang.value);
 
     let hintHandler: number | null = null;
+
+    // 组件挂载时注入CSS
+    onMounted(() => {
+      if (!cssInitialized) {
+        // 只在首次加载时注入全局CSS
+        injectCSS(passwordModalCSS, 'password-modal-styles');
+        cssInitialized = true;
+      }
+      
+      // 确保组件渲染同步
+      nextTick(() => {
+        ready.value = true;
+      });
+
+      // 组件卸载时清理
+      return () => {
+        if (hintHandler) {
+          clearTimeout(hintHandler);
+          hintHandler = null;
+        }
+      };
+    });
 
     const verify = (): void => {
       // Clear previous handler
@@ -61,8 +89,11 @@ export default defineComponent({
       });
     };
 
-    return (): VNode =>
-      h(
+    return (): VNode | null => {
+      // 等待组件和样式准备好
+      if (!ready.value) return null;
+      
+      return h(
         "div",
         {
           class: [
@@ -122,5 +153,6 @@ export default defineComponent({
           ]),
         ],
       );
+    };
   },
 });

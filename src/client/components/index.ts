@@ -1,9 +1,3 @@
-import LocalEncrypt from './LocalEncrypt'
-import PasswordModal from './PasswordModal'
-import GlobalEncrypt from './GlobalEncrypt'
-
-export {
-  LocalEncrypt,
-  PasswordModal,
-  GlobalEncrypt,
-}
+export { default as LocalEncrypt } from './LocalEncrypt'
+export { default as PasswordModal } from './PasswordModal'
+export { default as GlobalEncrypt } from './GlobalEncrypt'
