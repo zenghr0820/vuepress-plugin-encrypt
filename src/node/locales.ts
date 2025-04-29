@@ -4,6 +4,12 @@ import type { EncryptLocaleData } from '../shared/encrypt'
 export type DefaultLocaleInfo = Record<string, EncryptLocaleData>;
 
 export const EncryptLocaleInfo: Record<string, EncryptLocaleData> = {
+  '/': {
+    iconLabel: '加密',
+    placeholder: '请输入密码',
+    remember: '记住密码',
+    errorHint: '请输入正确的密码！'
+  },
   'en': {
     iconLabel: 'Encrypt',
     placeholder: 'Enter password',

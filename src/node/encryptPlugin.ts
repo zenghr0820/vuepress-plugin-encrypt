@@ -28,7 +28,7 @@ export const encryptPlugin = (options: EncryptOptions): Plugin => (app) => {
   }
 
   if (config.replaceComponent) {
-    const encrypt = config.replaceComponent.encrypt || "@theme-hope/modules/encrypt/components/GlobalEncrypt";
+    const encrypt = config.replaceComponent.encrypt || "@theme-hope/modules/encrypt/components/LocalEncrypt";
     const globalEncrypt = config.replaceComponent.globalEncrypt || "@theme-hope/modules/encrypt/components/GlobalEncrypt";
     Object.assign(alias, {})
     alias[encrypt] = path.resolve(__dirname, "../client/components/LocalEncrypt")
@@ -52,10 +52,10 @@ export const encryptPlugin = (options: EncryptOptions): Plugin => (app) => {
           const m = tokens[idx].info.match(ENCRYPT_CONTAINER_BEGIN_REGEX)
           if (tokens[idx].nesting === 1) {
             // opening tag
-            return `<Encrypt token="${m[1]}" mode="strict">`
+            return `<LocalEncrypt token="${m[1]}" mode="strict">`
           } else {
             // closing tag
-            return '</Encrypt>\n'
+            return '</LocalEncrypt>\n'
           }
         }
       });

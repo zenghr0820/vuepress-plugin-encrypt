@@ -10,7 +10,7 @@ import PasswordModal from './PasswordModal';
  * 2. 严格模式：加密原始内容，解密后再渲染
  */
 export default defineComponent({
-  name: "Encrypt",
+  name: "LocalEncrypt",
 
   props: {
     token: {

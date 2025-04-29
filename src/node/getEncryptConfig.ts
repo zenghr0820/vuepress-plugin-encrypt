@@ -39,7 +39,7 @@ export const convertEncryptOptions = (options: EncryptOptions): EncryptConfig =>
     global: options.global || false,
     admin: options.admin ? convertPasswordOptions(options.admin) : undefined,
     config: {},
-    locales: {},
+    locales: options.locales,
     mode: options.mode,
     // 接收用户自定义选择器
     contentContainer: options.contentContainer,
@@ -57,15 +57,3 @@ export const convertEncryptOptions = (options: EncryptOptions): EncryptConfig =>
 
   return config;
 };
-
-
-// export enum EncryptPluginType {
-//   /**
-//    * 工作模式，普通模式加密渲染内容
-//    */
-//   Normal = "normal",
-//   /**
-//    * 严格模式加密原始内容
-//    */
-//   Strict = "strict",
-// }

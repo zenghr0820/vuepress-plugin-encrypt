@@ -8,7 +8,7 @@ declare const __VUEPRESS_ENCRYPT_CONFIG__: Record<string, any>;
 export default defineClientConfig({
   enhance({app}) {
     // 注册组件
-    app.component("Encrypt", LocalEncrypt);
+    app.component("LocalEncrypt", LocalEncrypt);
     app.component("GlobalEncrypt", GlobalEncrypt);
   },
   setup() {

@@ -1,12 +1,3 @@
----
-title: vuepress-plugin-encrypt
-date: 2025-04-29 22:35:00
-categories: 
- - Vuepress
-tags: 
- - Vuepress
- - Plugin
----
 # vuepress-plugin-encrypt 内容加密插件使用文档
 一个 VuePress 插件，是一个专为 VuePress 2.x 开发的内容加密插件，可以为您的文档或博客提供页面级别的密码保护和内容块加密功能
 
@@ -14,21 +5,26 @@ tags:
 ## 声明
 > [!CAUTION]
 > 该文档由 AI 自动生成，如有问题请反馈
+>
+> 该插件代码提取自 [vuepress-theme-hope](https://theme-hope.vuejs.press/zh/) 内置加密组件，在其基础上添加 CLI 加密/解密功能
+>
 > 请不要使用该加密功能用于任何敏感、机密的文章与档案，或是使用不当，造成的后果请你自负，本插件作者和贡献者对此不承担任何责任。插件仅供学习交流使用。
 
 ## 功能
 - [x] CLI命令实现内容加密
 - [x] 路由加密
 - [x] 自定义密码组
-- [x] 自定义记住状态时长
-- [x] 自定义验证界面
+- [ ] 自定义记住状态时长
+- [ ] 自定义验证界面
 
-### 特性
-- **页面加密**：为特定路径下的页面设置密码保护
-- **内容加密**：在 Markdown 中为特定内容块设置密码保护
-- **全局管理员密码**：设置管理员密码，可以解锁所有加密内容
-- **多语言支持**：支持多种语言配置
-- **主题集成**：与 VuePress 主题完美集成
+## 特性
+
+- 📄 **页面加密** - 为特定路径的页面设置密码保护
+- 📝 **内容加密** - 在 Markdown 中为特定内容块设置密码保护
+- 🔑 **全局密码** - 设置管理员密码，可以解锁所有加密内容
+- 🌐 **多语言支持** - 支持多语言配置
+- 🎨 **主题集成** - 与 VuePress 主题完美集成
+- 🚀 **Vite 构建** - 使用 Vite 进行快速构建
 
 ## 工作模式
 - 内容加密模式
@@ -53,11 +49,6 @@ yarn add vuepress-plugin-encrypt
 # pnpm
 pnpm add vuepress-plugin-encrypt
 ```
-
-
-<!-- ## 部署建议
-- 建议部署到私有仓库，防止内容泄露
-- 建议使用gh-pages分支将dist部署到GitHub Pages -->
 
 ## 工作原理
 ### 内容加密模式（普通）
@@ -95,6 +86,78 @@ export default defineUserConfig({
   ]
 })
 ```
+
+## 🔐 CLI 命令行 - AES 加密
+
+插件提供了命令行工具，使用 **AES** ，用于批量加密/解密Markdown文件
+
+```bash
+CLI 工具用于加密/解密内容
+
+Options:
+  -V, --version                 output the version number
+  -h, --help                    display help for command
+
+Commands:
+  encrypt [options] <paths...>  加密 Markdown 文件 -p 加密密码
+  decrypt [options] <paths...>  解密 Markdown 文件 -p 解密密码
+  help [command]                display help for command
+```
+
+### 通过 npm scripts 调用（推荐）
+
+在 package.json 中添加
+
+```json
+{
+  "scripts": {
+    "encrypt": "vuepress-plugin-encrypt encrypt",
+    "decrypt": "vuepress-plugin-encrypt decrypt"
+  }
+}
+```
+
+然后运行加密/解密
+
+```bash
+npm run encrypt -- <加密文件 or 文件夹> -p <加密密码>
+npm run decrypt -- <解密文件 or 文件夹> -p <解密密码>
+```
+
+### 或者使用 npx 直接运行
+
+```bash
+npx vuepress-plugin-encrypt [options]
+
+```
+
+### 🌰举个栗子
+
+```bash
+# 加密单个文件
+npx vuepress-plugin-encrypt encrypt ./docs/secret.md -p mypassword
+# 加密整个目录
+npx vuepress-plugin-encrypt encrypt ./docs/secret.md -p mypassword
+
+# 解密
+npx vuepress-plugin-encrypt decrypt ./docs/secret.md -p mypassword
+```
+
+### 📂加密案例
+
+```markdown
+# 页面标题
+
+这是公开内容，任何人都可以看到。
+
+::: encrypt token=密码123
+这是加密内容，只有输入正确密码才可见。
+:::
+
+这又是公开内容。
+```
+
+
 
 ## 配置详解
 
@@ -136,12 +199,12 @@ encryptPlugin({
       remember: '记住密码',
       errorHint: '密码错误',
     },
-    '/zh/': {
+    'zh-CN': {
       placeholder: '请输入密码',
       remember: '记住密码',
       errorHint: '密码错误',
     },
-    '/en/': {
+    'en': {
       placeholder: 'Please enter the password',
       remember: 'Remember password',
       errorHint: 'Incorrect password',
@@ -156,59 +219,42 @@ encryptPlugin({
 })
 ```
 
-## CLI 命令行 - 内容块加密
-
-插件提供了命令行工具，用于批量加密/解密Markdown文件：
-
-### 全局安装
-
-```bash
-npm install -g vuepress-plugin-encrypt
-```
-
-### 加密文件
-
-```bash
-vuepress-plugin-encrypt encrypt <paths...> -p <password>
-```
-
-示例：
-```bash
-# 加密单个文件
-vuepress-plugin-encrypt encrypt ./docs/secret.md -p mypassword
-
-# 加密整个目录
-vuepress-plugin-encrypt encrypt ./docs/secret -p mypassword
-```
-
-### 解密文件
-
-```bash
-vuepress-plugin-encrypt decrypt <paths...> -p <password>
-```
-
-示例：
-```bash
-# 解密单个文件
-vuepress-plugin-encrypt decrypt ./docs/secret.md -p mypassword
-```
-
-```markdown
-# 页面标题
-
-这是公开内容，任何人都可以看到。
-
-::: encrypt token=密码123
-这是加密内容，只有输入正确密码才可见。
-:::
-
-这又是公开内容。
-```
-
 
 ## 与主题集成
 
-如果您使用的是 VuePress Theme Hope 等支持加密功能的主题，可以通过`replaceComponent`配置项进行集成：
+如果您使用的是 `VuePress Theme Hope` 支持加密功能的主题，可以不用配置，插件默认集成 `VuePress Theme Hope` 
+
+### 注册组件 Component 集成
+
+插件默认注册两个全局组件
+
+**LocalEncrypt** 和 **GlobalEncrypt** 
+
+`LocalEncrypt` 组件负责 路由加密，你可以在你的主题布局组件中添加该组件，实现加载加密功能
+
+```vue
+<Layout>
+    <HomePage>
+    	<LocalEncrypt>
+            <NormalPage />
+        </LocalEncrypt>
+    </HomePage>
+</Layout>
+```
+
+`GlobalEncrypt` 组件负责 全局加密，你可以在你的主题布局组件中添加该组件，实现加载加密功能
+
+```vue
+<Layout>
+    <GlobalEncrypt>
+    	<HomePage />
+    </GlobalEncrypt>
+</Layout>
+```
+
+### 别名方式集成
+
+如果是其他支持加密功能的主题，你可以使用别名替换成该组件，配置如下
 
 ```js
 encryptPlugin({
@@ -217,23 +263,6 @@ encryptPlugin({
     globalEncrypt: "@theme-hope/modules/encrypt/components/GlobalEncrypt"
   }
 })
-```
-
-## 样式定制
-
-该插件内置了默认样式，但您也可以通过CSS变量或自定义样式文件进行覆盖：
-
-```css
-/* 在您的自定义样式文件中 */
-:root {
-  --vp-c-accent-bg: #3eaf7c;
-  --vp-c-accent-hover: #4abf8a;
-  --vp-c-shadow: rgba(0, 0, 0, 0.1);
-}
-
-.vp-decrypt-modal {
-  /* 自定义密码模态框样式 */
-}
 ```
 
 ## 常见问题解答
@@ -273,6 +302,22 @@ plugins: [
 ### 加密后无法搜索内容
 
 加密内容默认对搜索引擎隐藏，这是预期行为。如果需要索引加密内容，请使用非严格模式的内容块加密。
+
+
+
+## ❌️ 俺不中嘞
+
+**vite** 编译后 出现 `/* empty css */` 问题，俺不中了 😭 就这样了吧不解决了
+
+```js
+import "./styles/index.scss"
+# 编译后
+/* empty css */
+```
+
+最后使用 JS 强制注入CSS字符串到页面中
+
+相同的问题 [Why does Vite sometimes replace my CSS imports with /* empty css */](https://stackoverflow.com/questions/79203941/why-does-vite-sometimes-replace-my-css-imports-with-empty-css)
 
 ## 开发与贡献
 
