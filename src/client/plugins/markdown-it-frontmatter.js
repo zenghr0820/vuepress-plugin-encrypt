@@ -57,13 +57,13 @@ const parseFrontmatter = (state) => {
   if (frontmatterMatch) {
     const metaContent = frontmatterMatch[1];
     try {
-      // 简单解析 YAML (生产环境应使用专业库)
       // 使用yaml解析器解析yaml格式字符串
-      result.metaContent = metaContent;
+      result.metaContent = frontmatterMatch[0];
       const metaData = yaml.load(metaContent)
       // 保存解析结果
       result.meta = result.metaContent;
       result.data = metaData;
+
       result.isEmpty = !metaData || Object.keys(metaData).length === 0;
       // 从原始内容中提取不含 frontmatter 的部分
       result.content = state.src.slice(frontmatterMatch[0].length).trim();

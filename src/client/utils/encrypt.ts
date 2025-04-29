@@ -51,16 +51,16 @@ export const handleDecrypt = (content: string, token: string, isHash: boolean): 
 export const encryptFrontmatter = (content: string, password: string | string[], filePath?: string): string => {
   const markdown = new MarkdownIt();
   // 解析 frontmatter
-  const {data, content: markdownContent} = parseFrontmatter(content);
+  const parsed = parseFrontmatter(content);
   // 渲染 markdown 内容
-  const html = markdown.render(markdownContent, {
-    frontmatter: data,
+  const html = markdown.render(parsed.content, {
+    frontmatter: parsed.data,
     relativePath: filePath ? resolveRelative(filePath) : undefined
   });
 
   // 构建加密数据
   const plaintext = JSON.stringify({
-    markdown: markdownContent,
+    markdown: parsed.content,
     component: {
       template: `<div>${html}</div>`
     }
@@ -70,15 +70,15 @@ export const encryptFrontmatter = (content: string, password: string | string[],
   const encrypted = encryptContent(plaintext, password);
 
   // 返回加密后的完整内容
-  return `---\n${yaml.dump(data)}---\n\n::: encrypt encrypted token=${encrypted.token}\n${encrypted.encryptText}\n:::\n`;
+  return `${parsed.metaContent}::: encrypt encrypted token=${encrypted.token}\n${encrypted.encryptText}\n:::\n`;
 };
 
 export const decryptFrontmatter = (content: string, password: string | string[]): string => {
   // 解析 frontmatter
-  const {data, content: restContent} = parseFrontmatter(content);
+  const parsedFm = parseFrontmatter(content);
 
   const regex = /^::: encrypt encrypted .*?\n([\s\S]*?)\n:::/m;
-  const restMatch = restContent.match(regex);
+  const restMatch = parsedFm.content.match(regex);
   if (!restMatch || restMatch.length <= 0) {
     console.warn("没有找到需要解密的内容")
     return
@@ -96,7 +96,7 @@ export const decryptFrontmatter = (content: string, password: string | string[])
       if (!parsed.markdown) {
         throw new Error('解密内容格式不正确');
       }
-      return `---\n${yaml.dump(data)}---\n\n${parsed.markdown}`;
+      return `${parsedFm.metaContent}${parsed.markdown}`;
     } catch (e) {
       console.error('JSON 解析错误:', e);
       throw new Error('解密内容格式不正确');
