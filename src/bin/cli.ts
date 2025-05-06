@@ -2,8 +2,8 @@
 import { program } from 'commander';
 import { fs, path } from "@vuepress/utils";
 import { encryptFrontmatter, decryptFrontmatter } from '../client/utils/encrypt.js';
-import { version } from '../../package.json';
-
+import pkg from '../../package.json' assert { type: 'json' };
+const { version } = pkg;
 // 递归获取目录下的所有文件
 const getAllFiles = async (dir: string): Promise<string[]> => {
   const files = await fs.readdir(dir);
