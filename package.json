@@ -26,7 +26,7 @@
     "copy:styles": "copyfiles -u 1 \"src/client/styles/**/*.{css,scss}\" lib",
     "build:dev": "rimraf lib && rollup -c",
     "clean": "rimraf lib",
-    "release": "npm version patch && npm run build && npm publish"
+    "release": "npm run build && npm version patch && npm publish"
   },
   "files": [
     "lib"
