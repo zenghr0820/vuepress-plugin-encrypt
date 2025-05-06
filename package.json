@@ -22,9 +22,11 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "build": "vite build",
+    "build": "rimraf lib && tsc && npm run copy:styles",
+    "copy:styles": "copyfiles -u 1 \"src/client/styles/**/*.{css,scss}\" lib",
+    "build:dev": "rimraf lib && rollup -c",
     "clean": "rimraf lib",
-    "release": "npm run build && npm version patch && npm publish"
+    "release": "npm version patch && npm run build && npm publish"
   },
   "files": [
     "lib"
@@ -60,12 +62,11 @@
     "@vuepress/utils": "2.0.0-rc.21",
     "@vueuse/core": "^10.11.1",
     "commander": "^11.1.0",
+    "copyfiles": "^2.4.1",
     "markdown-it": "^13.0.2",
     "rimraf": "^6.0.1",
     "sass": "^1.87.0",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.3",
-    "vite-plugin-dts": "^4.5.3"
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">=16.0.0"

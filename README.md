@@ -24,7 +24,7 @@
 - 🔑 **全局密码** - 设置管理员密码，可以解锁所有加密内容
 - 🌐 **多语言支持** - 支持多语言配置
 - 🎨 **主题集成** - 与 VuePress 主题完美集成
-- 🚀 **Vite 构建** - 使用 Vite 进行快速构建
+- ~~🚀 **Vite 构建** - 使用 Vite 进行快速构建~~ 
 
 ## 工作模式
 - 内容加密模式
@@ -317,7 +317,9 @@ import "./styles/index.scss"
 
 最后使用 JS 强制注入CSS字符串到页面中
 
-相同的问题 [Why does Vite sometimes replace my CSS imports with /* empty css */](https://stackoverflow.com/questions/79203941/why-does-vite-sometimes-replace-my-css-imports-with-empty-css)
+相同的问题 [Why does Vite sometimes replace my CSS imports with /* empty css */](https://stackoverflow.com/questions/79203941/why-does-vite-sometimes-replace-my-css-imports-with-empty-css) 
+
+> 修改为 TSC 打包
 
 ## 开发与贡献
 

@@ -5,12 +5,8 @@ import {usePageFrontmatter, usePageLang} from "@vuepress/client";
 import { LockIcon } from "./icons";
 
 import {useThemeLocaleData} from "../../client/composables";
+import "../styles/password-modal.scss";
 
-// 导入样式工具和CSS字符串
-import { injectCSS, passwordModalCSS } from '../styles/password-modal';
-
-// 确保CSS已初始化标志，防止重复注入
-let cssInitialized = false;
 
 export default defineComponent({
   name: "PasswordModal",
@@ -53,11 +49,11 @@ export default defineComponent({
 
     // 组件挂载时注入CSS
     onMounted(() => {
-      if (!cssInitialized) {
-        // 只在首次加载时注入全局CSS
-        injectCSS(passwordModalCSS, 'password-modal-styles');
-        cssInitialized = true;
-      }
+      // if (!cssInitialized) {
+      //   // 只在首次加载时注入全局CSS
+      //   injectCSS(passwordModalCSS, 'password-modal-styles');
+      //   cssInitialized = true;
+      // }
       
       // 确保组件渲染同步
       nextTick(() => {
