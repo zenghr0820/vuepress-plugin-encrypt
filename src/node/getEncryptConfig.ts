@@ -43,6 +43,7 @@ export const convertEncryptOptions = (options: EncryptOptions): EncryptConfig =>
     mode: options.mode,
     // 接收用户自定义选择器
     contentContainer: options.contentContainer,
+    style: options.style,
   };
 
 

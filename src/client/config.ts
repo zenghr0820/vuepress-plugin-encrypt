@@ -1,5 +1,6 @@
 import {defineClientConfig} from "@vuepress/client";
 import {onMounted} from 'vue';
+import { useEncryptConfig } from "./composables/useEncryptConfig";
 import { default as LocalEncrypt } from "./components/LocalEncrypt";
 import { default as GlobalEncrypt } from "./components/GlobalEncrypt";
 import { version } from '../../package.json'
@@ -13,6 +14,28 @@ export default defineClientConfig({
     app.component("GlobalEncrypt", GlobalEncrypt);
   },
   setup() {
+    // 获取插件配置
+    const encryptData = useEncryptConfig();
+    console.log("encryptData = ", encryptData)
+    const style = encryptData?.style || null;
+    if (style) {
+      console.log("style = ", encryptData)
+      const root = document.documentElement
+      const set = (key, val) => val && root.style.setProperty(key, val)
+      set('--encrypt-c-bg', style.colorBg)
+      set('--encrypt-c-text', style.colorText)
+      set('--encrypt-c-text-mute', style.colorTextMute)
+      set('--encrypt-c-border', style.colorBorder)
+      set('--encrypt-c-shadow', style.colorShadow)
+      set('--encrypt-c-accent-bg', style.colorAccentBg)
+      set('--encrypt-c-accent-hover', style.colorAccentHover)
+      set('--encrypt-c-white', style.colorWhite)
+
+      set('--encrypt-t-color', style.tColor)
+      set('--encrypt-navbar-height', style.navbarHeight)
+    }
+
+
     onMounted(() => {
       console.log(
         `\n %c 🎉🎉🎉 %c %c ✨ vuepress-plugin-encrypt v${version}  Ready !! ✨ %c %c 🎉🎉🎉 \n`,
@@ -26,4 +49,6 @@ export default defineClientConfig({
   },
 
   rootComponents: [],
+
+
 });

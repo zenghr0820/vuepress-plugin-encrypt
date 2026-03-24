@@ -68,6 +68,8 @@ export interface EncryptOptions {
 
   // 新增内容容器选择器配置
   contentContainer?: string;
+
+  style?: StyleConfig
 }
 
 export interface PasswordConfig {
@@ -134,6 +136,14 @@ export interface EncryptConfig {
 
   // 新增内容容器选择器配置
   contentContainer?: string;
+
+  /**
+   * style: 样式
+   *
+   * 默认替换 theme-hope 内置的样式
+   *
+   */
+  style?: StyleConfig
 }
 
 
@@ -197,6 +207,29 @@ export interface UseEncryptStatus {
 interface ReplaceComponentConfig {
   encrypt?: string,
   globalEncrypt?: string,
+}
+
+interface StyleConfig {
+  // 背景色
+  colorBg?: string
+  // 文字色
+  colorText?: string
+  // 次要文字色
+  colorTextMute?: string
+  // 边框色
+  colorBorder?: string
+  // 阴影
+  colorShadow?: string
+  // 主题主色
+  colorAccentBg?: string
+  // 主题 hover 色
+  colorAccentHover?: string
+  // 白色
+  colorWhite?: string
+  // 动画时间
+  tColor?: string
+  // 导航栏高度
+  navbarHeight?: string
 }
 
 
