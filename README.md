@@ -219,6 +219,26 @@ encryptPlugin({
 })
 ```
 
+### 自定义样式配置
+
+支持自定义加密框样式，优先级：用户主题变量 > 插件配置 > 插件默认值：
+
+```typescript
+encryptPlugin({
+  config: {
+    "/chit-chat/demo": "zenghr",
+  },
+  // 可选：自定义样式（不配置则使用默认值）
+  style: {
+    colorBg: "#f9fafb",          // 加密框背景色
+    colorAccent: "#4f46e5",      // 按钮/边框主色
+    colorBorder: "#d1d5db",      // 边框色
+    colorShadow: "0 4px 20px rgba(0,0,0,0.1)", // 阴影
+    colorText: "#213547",        // 文本色
+    colorTextMute: "#888888",    // 次要文本色（如"记住密码"）
+  },
+})
+```
 
 ## 与主题集成
 
@@ -305,9 +325,9 @@ plugins: [
 
 
 
-## ❌️ 俺不中嘞
+## ~~❌️ 俺不中嘞~~
 
-**vite** 编译后 出现 `/* empty css */` 问题，俺不中了 😭 就这样了吧不解决了
+~~**vite** 编译后 出现 `/* empty css */` 问题，俺不中了 😭 就这样了吧不解决了~~
 
 ```js
 import "./styles/index.scss"
@@ -315,11 +335,11 @@ import "./styles/index.scss"
 /* empty css */
 ```
 
-最后使用 JS 强制注入CSS字符串到页面中
+~~最后使用 JS 强制注入CSS字符串到页面中~~
 
-相同的问题 [Why does Vite sometimes replace my CSS imports with /* empty css */](https://stackoverflow.com/questions/79203941/why-does-vite-sometimes-replace-my-css-imports-with-empty-css) 
+~~相同的问题 [Why does Vite sometimes replace my CSS imports with /* empty css */](https://stackoverflow.com/questions/79203941/why-does-vite-sometimes-replace-my-css-imports-with-empty-css)~~ 
 
-> 修改为 TSC 打包
+> ~~修改为 TSC 打包~~
 
 ## 开发与贡献
 
