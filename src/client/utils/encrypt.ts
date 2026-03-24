@@ -48,8 +48,13 @@ export const handleDecrypt = (content: string, token: string, isHash: boolean): 
   }
 };
 
-export const encryptFrontmatter = (content: string, password: string | string[], filePath?: string): string => {
-  const markdown = new MarkdownIt();
+export const encryptFrontmatter = (content: string, mdRender: MarkdownIt, password: string | string[], filePath?: string): string => {
+  // const markdown = new MarkdownIt();
+  const markdown = mdRender;
+  if (!markdown) {
+    console.error('Markdown 渲染器不存在');
+    process.exit(1);
+  }
   // 解析 frontmatter
   const parsed = parseFrontmatter(content);
   // 渲染 markdown 内容

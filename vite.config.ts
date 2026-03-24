@@ -78,7 +78,7 @@ export default defineConfig({
     lib: {
       formats: ['es'],
       entry: {
-        'bin/cli': path.resolve(__dirname, './src/bin/cli.ts'),
+        'cli/index': path.resolve(__dirname, './src/cli/index.ts'),
         'node/index': path.resolve(__dirname, './src/node/index.ts'),
         'client/index': path.resolve(__dirname, './src/client/index.ts'),
         'client/config': path.resolve(__dirname, './src/client/config.ts'),

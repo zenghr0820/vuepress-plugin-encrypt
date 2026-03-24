@@ -17,3 +17,15 @@ export const encryptToken = (token = ""): string => {
   return CryptoES.SHA256(token).toString();
 
 };
+
+export const encryptSecret = (token = "", secret = ""): string => {
+  if (!token) return "";
+
+  return CryptoES.AES.encrypt(token, secret).toString();
+};
+
+export const decryptSecret = (token = "", secret = ""): string => {
+  if (!token) return "";
+
+  return CryptoES.AES.decrypt(token, secret).toString(CryptoES.enc.Utf8);
+};

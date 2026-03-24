@@ -1,7 +1,7 @@
 import {computed} from 'vue';
 import {useSessionStorage, useStorage} from "@vueuse/core";
 import {EncryptContainer, UseEncryptStatus} from "../../shared";
-import {handleDecrypt, isTokenMatched} from "../../client";
+import {encryptToken, encryptSecret, decryptSecret, handleDecrypt, isTokenMatched} from "../../client";
 
 const STORAGE_KEY = "__VUEPRESS_ENCRYPT_STRICT_TOKEN__";
 
@@ -14,9 +14,14 @@ export const useStrictEncrypt = (token: string, mode: string): EncryptContainer 
     {},
   );
 
+  const currentPath = window.location.pathname;
+
   // 判断token是否已解锁
   const isUnlocked = computed(() => {
-    return (localTokenConfig.value[token] || sessionTokenConfig.value[token]);
+    const inputSecret = localTokenConfig.value[currentPath] || sessionTokenConfig.value[currentPath];
+    // 解密
+    const inputPwd = decryptSecret(inputSecret, currentPath);
+    return inputPwd === token;
   });
 
   // 获取加密状态
@@ -44,8 +49,9 @@ export const useStrictEncrypt = (token: string, mode: string): EncryptContainer 
       // 存储token
       const configStorage = keep ? localTokenConfig : sessionTokenConfig;
       // 避免重复添加
-      if (!configStorage.value[token]) {
-        configStorage.value[token] = "true"
+      if (!configStorage.value[currentPath]) {
+        // 加密
+        configStorage.value[currentPath] = encryptSecret(encryptToken(inputToken), currentPath);
       }
 
       // 解密
