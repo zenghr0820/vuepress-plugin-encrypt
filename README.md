@@ -111,8 +111,8 @@ Commands:
 ```json
 {
   "scripts": {
-    "encrypt": "vuepress-plugin-encrypt encrypt",
-    "decrypt": "vuepress-plugin-encrypt decrypt"
+    "encrypt": "vp-encrypt encrypt",
+    "decrypt": "vp-encrypt decrypt"
   }
 }
 ```
@@ -127,7 +127,7 @@ npm run decrypt -- <解密文件 or 文件夹> -p <解密密码>
 ### 或者使用 npx 直接运行
 
 ```bash
-npx vuepress-plugin-encrypt [options]
+npx vp-encrypt [options]
 
 ```
 
@@ -135,12 +135,12 @@ npx vuepress-plugin-encrypt [options]
 
 ```bash
 # 加密单个文件
-npx vuepress-plugin-encrypt encrypt ./docs/secret.md -p mypassword
+npx vp-encrypt encrypt ./docs/secret.md -p mypassword
 # 加密整个目录
-npx vuepress-plugin-encrypt encrypt ./docs/secret.md -p mypassword
+npx vp-encrypt encrypt ./docs/secret.md -p mypassword
 
 # 解密
-npx vuepress-plugin-encrypt decrypt ./docs/secret.md -p mypassword
+npx vp-encrypt decrypt ./docs/secret.md -p mypassword
 ```
 
 ### 📂加密案例
